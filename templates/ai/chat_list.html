@@ -1,0 +1,40 @@
+{% extends 'base_app.html' %}
+
+{% block title %}Chat | SCSI{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+    <div>
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Chat IA</div>
+        <h1 class="text-4xl md:text-5xl font-dot tracking-tight mb-2">Conversas</h1>
+        <p class="text-sm text-gray-400">Suas sessões de chat com o assistente IA.</p>
+    </div>
+    <form method="post" action="{% url 'chat_new' %}">
+        {% csrf_token %}
+        <button type="submit" class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">Nova conversa →</button>
+    </form>
+</div>
+
+<div class="rounded-2xl border border-white/5 bg-[#1C1F26] divide-y divide-white/5">
+    {% for session in sessions %}
+        <div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-white/[0.02] transition-colors">
+            <div class="col-span-8 md:col-span-9">
+                <a href="{% url 'chat_detail' session.pk %}" class="text-xs text-white">{{ session.title|default:'Nova conversa' }}</a>
+                <div class="text-xs text-gray-500 mt-1">{{ session.created_at|date:'d/m/Y H:i' }}</div>
+            </div>
+            <div class="col-span-4 md:col-span-3 text-right">
+                <a href="{% url 'chat_delete' session.pk %}" class="text-xs text-gray-500 hover:text-red-400 transition-colors">Excluir</a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="px-6 py-12 text-center">
+            <div class="text-3xl font-dot tracking-tight mb-2">Nenhuma conversa</div>
+            <p class="text-xs text-gray-500 mb-6">Inicie uma conversa com o assistente IA.</p>
+            <form method="post" action="{% url 'chat_new' %}">
+                {% csrf_token %}
+                <button type="submit" class="inline-flex px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all">Nova conversa</button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

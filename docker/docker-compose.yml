@@ -1,0 +1,124 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: scsi-local:latest
+    env_file:
+      - ../.env
+    ports:
+      - '127.0.0.1:8000:8000'
+    volumes:
+      - ..:/app
+      - scsi_media:/app/media
+      - scsi_staticfiles:/app/staticfiles
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'python -c "import urllib.request; urllib.request.urlopen(\"http://localhost:8000/health/\", timeout=5)"']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - scsi-internal
+
+  celery_worker:
+    image: scsi-local:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file:
+      - ../.env
+    entrypoint: ['sh', '/app/docker/entrypoint-celery.sh']
+    command: ['celery', '-A', 'core', 'worker', '--loglevel=info']
+    volumes:
+      - ..:/app
+      - scsi_media:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - scsi-internal
+
+  celery_beat:
+    image: scsi-local:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file:
+      - ../.env
+    entrypoint: ['sh', '/app/docker/entrypoint-celery.sh']
+    command: ['celery', '-A', 'core', 'beat', '--loglevel=info']
+    volumes:
+      - ..:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - scsi-internal
+
+  db:
+    image: postgres:17-alpine
+    env_file:
+      - ../.env
+    volumes:
+      - scsi_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - scsi-internal
+
+  redis:
+    image: redis:7-alpine
+    command: ['redis-server', '--requirepass', '${REDIS_PASSWORD:-redis}']
+    volumes:
+      - scsi_redis:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - scsi-internal
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    env_file:
+      - ../.env
+    volumes:
+      - scsi_rabbitmq:/var/lib/rabbitmq
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', 'check_port_connectivity']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - scsi-internal
+
+volumes:
+  scsi_postgres:
+  scsi_redis:
+  scsi_rabbitmq:
+  scsi_media:
+  scsi_staticfiles:
+
+networks:
+  scsi-internal:
+    driver: bridge

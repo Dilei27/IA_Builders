@@ -1,0 +1,61 @@
+{% extends 'base_app.html' %}
+
+{% block title %}Repasses | SCSI{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+    <div>
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Repasses</div>
+        <h1 class="text-4xl md:text-5xl font-dot tracking-tight mb-2">Repasses</h1>
+        <p class="text-sm text-gray-400">Comissões repassadas a agentes e produtores.</p>
+    </div>
+    <a href="{% url 'commission_create' %}" class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">Nova comissão →</a>
+</div>
+
+<div class="grid md:grid-cols-3 gap-4 mb-8">
+    <div class="rounded-2xl bg-[#262A34] border border-white/5 p-6">
+        <div class="text-xs text-gray-500 mb-1">Total Recebido</div>
+        <div class="text-3xl font-dot tracking-tight text-emerald-400">R$ {{ total_received|floatformat:2 }}</div>
+    </div>
+    <div class="rounded-2xl bg-[#262A34] border border-white/5 p-6">
+        <div class="text-xs text-gray-500 mb-1">Total Repassado</div>
+        <div class="text-3xl font-dot tracking-tight text-orange-400">R$ {{ total_passed|floatformat:2 }}</div>
+    </div>
+    <div class="rounded-2xl bg-[#262A34] border border-white/5 p-6">
+        <div class="text-xs text-gray-500 mb-1">Saldo</div>
+        <div class="text-3xl font-dot tracking-tight {% if balance >= 0 %}text-white{% else %}text-red-400{% endif %}">R$ {{ balance|floatformat:2 }}</div>
+    </div>
+</div>
+
+<div class="rounded-2xl border border-white/5 bg-[#1C1F26] divide-y divide-white/5">
+    <div class="grid grid-cols-12 px-6 py-4 text-xs text-gray-500 uppercase tracking-widest">
+        <div class="col-span-4">Descrição</div>
+        <div class="col-span-3 hidden md:block">Apólice</div>
+        <div class="col-span-2 hidden md:block">Data</div>
+        <div class="col-span-2">Valor</div>
+        <div class="col-span-3 md:col-span-1 text-right">Status</div>
+    </div>
+    {% for c in objects %}
+        <div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-white/[0.02] transition-colors">
+            <div class="col-span-5 md:col-span-4">
+                <a href="{{ c.get_absolute_url }}" class="text-xs text-white">{{ c.description|default:'-' }}</a>
+            </div>
+            <div class="col-span-3 hidden md:block text-xs text-gray-400">{{ c.policy }}</div>
+            <div class="col-span-2 hidden md:block text-xs text-gray-400">{{ c.commission_date|date:'d/m/Y'|default:'-' }}</div>
+            <div class="col-span-3 md:col-span-2 text-xs text-gray-300">R$ {{ c.amount|floatformat:2 }}</div>
+            <div class="col-span-4 md:col-span-1 text-right">
+                {% if c.status == 'paid' %}<span class="text-xs text-emerald-400">Paga</span>
+                {% elif c.status == 'pending' %}<span class="text-xs text-yellow-400">Pendente</span>
+                {% elif c.status == 'cancelled' %}<span class="text-xs text-gray-500">Cancelada</span>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <div class="px-6 py-12 text-center">
+            <div class="text-3xl font-dot tracking-tight mb-2">Nenhum repasse</div>
+            <p class="text-xs text-gray-500 mb-6">Registre comissões para acompanhar os repasses.</p>
+            <a href="{% url 'commission_create' %}" class="inline-flex px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all">Criar comissão</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

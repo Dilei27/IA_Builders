@@ -1,0 +1,73 @@
+{% extends 'base_app.html' %}
+
+{% block title %}{{ object.title }} | CRM | SCSI{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+    <div>
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Negociação</div>
+        <h1 class="text-4xl md:text-5xl font-dot tracking-tight mb-2">{{ object.title }}</h1>
+        <p class="text-sm text-gray-400">{{ object.client }}</p>
+    </div>
+    <div class="flex gap-3">
+        <a href="{% url 'deal_update' object.pk %}" class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all">Editar</a>
+        <a href="{% url 'deal_delete' object.pk %}" class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Excluir</a>
+    </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6">
+    <div class="rounded-2xl border border-white/5 bg-[#1C1F26] divide-y divide-white/5">
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Pipeline</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.pipeline }}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Etapa</div>
+            <div class="md:col-span-8 text-xs">
+                <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md" style="background-color: {{ object.stage.color }}20; color: {{ object.stage.color }}; border: 1px solid {{ object.stage.color }}40;">{{ object.stage.name }}</span>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Cliente</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.client }}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Valor</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{% if object.value %}R$ {{ object.value|floatformat:2 }}{% else %}-{% endif %}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Probabilidade</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.probability }}%</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Descrição</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.description|default:'Sem descrição.' }}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Observações</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.notes|default:'Sem observações.' }}</div>
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-6">
+        <div class="rounded-2xl border border-white/5 bg-[#262A34] p-6">
+            <h3 class="text-base font-dot tracking-tight mb-2">Resumo IA</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">{{ object.ai_summary|default:'Nenhum resumo gerado ainda.' }}</p>
+        </div>
+        <div class="rounded-2xl border border-white/5 bg-[#1C1F26] p-6">
+            <h3 class="text-base font-dot tracking-tight mb-2">Mover para etapa</h3>
+            <form method="post" action="{% url 'deal_move' object.pk %}" class="flex gap-3">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ object.get_absolute_url }}">
+                <select name="stage" class="flex-1 rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+                    {% for stage in object.pipeline.stages.all %}
+                        <option value="{{ stage.pk }}" {% if stage == object.stage %}selected{% endif %}>{{ stage.name }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="px-4 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition-colors">Mover</button>
+            </form>
+        </div>
+        <a href="{% url 'pipeline_detail' object.pipeline.pk %}" class="text-xs text-blue-400 hover:text-white transition-colors">← Voltar ao Kanban</a>
+    </div>
+</div>
+{% endblock %}

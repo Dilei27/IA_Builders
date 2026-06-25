@@ -1,0 +1,23 @@
+{% extends 'base_app.html' %}
+
+{% block title %}Relatórios | SCSI{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+    <div>
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Relatórios</div>
+        <h1 class="text-4xl md:text-5xl font-dot tracking-tight mb-2">Exportar dados</h1>
+        <p class="text-sm text-gray-400">Exporte dados da sua corretora em formato CSV.</p>
+    </div>
+</div>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for report in reports %}
+        <div class="rounded-2xl bg-[#1C1F26] border border-white/5 p-6 hover:border-white/20 transition-all">
+            <h3 class="text-base font-dot tracking-tight mb-2">{{ report.name }}</h3>
+            <p class="text-xs text-gray-500 mb-6">{{ report.description }}</p>
+            <a href="{% url report.url_name %}" class="inline-flex px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Exportar CSV →</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

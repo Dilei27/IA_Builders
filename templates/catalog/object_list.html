@@ -1,0 +1,47 @@
+{% extends 'base_app.html' %}
+
+{% block title %}{{ title }} | SCSI{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+    <div>
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// {{ section_label }}</div>
+        <h1 class="text-4xl md:text-5xl font-dot tracking-tight mb-2">{{ title }}</h1>
+        <p class="text-sm text-gray-400">{{ subtitle }}</p>
+    </div>
+    <a href="{% url create_url_name %}" class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">Novo cadastro →</a>
+</div>
+
+<form method="get" class="mb-6">
+    <div class="flex gap-3">
+        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar por nome..." class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+        <button class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Buscar</button>
+    </div>
+</form>
+
+<div class="rounded-2xl border border-white/5 bg-[#1C1F26] divide-y divide-white/5">
+    <div class="grid grid-cols-12 px-6 py-4 text-xs text-gray-500 uppercase tracking-widest">
+        <div class="col-span-7">Nome</div>
+        <div class="col-span-3 hidden md:block">Status</div>
+        <div class="col-span-5 md:col-span-2 text-right">Ações</div>
+    </div>
+    {% for object in objects %}
+        <div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-white/[0.02] transition-colors">
+            <div class="col-span-7">
+                <a href="{{ object.get_absolute_url }}" class="text-xs text-white">{{ object }}</a>
+                <div class="text-xs text-gray-500 mt-1">Atualizado em {{ object.updated_at|date:'d/m/Y H:i' }}</div>
+            </div>
+            <div class="col-span-3 hidden md:block text-xs text-gray-400">{% if object.is_active %}Ativo{% else %}Inativo{% endif %}</div>
+            <div class="col-span-5 md:col-span-2 text-right">
+                <a href="{{ object.get_absolute_url }}" class="text-xs text-blue-400 hover:text-white transition-colors">Detalhe</a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="px-6 py-12 text-center">
+            <div class="text-3xl font-dot tracking-tight mb-2">Nenhum registro encontrado</div>
+            <p class="text-xs text-gray-500 mb-6">Crie o primeiro cadastro desta seção.</p>
+            <a href="{% url create_url_name %}" class="inline-flex px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all">Criar cadastro</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

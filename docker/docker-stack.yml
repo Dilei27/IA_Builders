@@ -1,0 +1,250 @@
+version: '3.8'
+
+networks:
+  traefik-public:
+    external: true
+  scsi-internal:
+    driver: overlay
+
+volumes:
+  scsi_postgres:
+    driver: local
+  scsi_redis:
+    driver: local
+  scsi_rabbitmq:
+    driver: local
+  scsi_media:
+    driver: local
+  scsi_staticfiles:
+    driver: local
+  traefik-certificates:
+    driver: local
+
+configs:
+  traefik_config:
+    file: ./docker/traefik/traefik.yml
+  traefik_dynamic:
+    file: ./docker/traefik/dynamic.yml
+
+secrets:
+  postgres_password:
+    external: true
+  rabbitmq_password:
+    external: true
+  secret_key:
+    external: true
+  openai_api_key:
+    external: true
+  cf_api_token:
+    external: true
+
+services:
+  traefik:
+    image: traefik:v3.3
+    command:
+      - '--providers.docker.swarmMode=true'
+      - '--providers.file.filename=/etc/traefik/dynamic.yml'
+    ports:
+      - target: 80
+        published: 80
+        mode: host
+      - target: 443
+        published: 443
+        mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-certificates:/certificates
+    configs:
+      - source: traefik_config
+        target: /etc/traefik/traefik.yml
+      - source: traefik_dynamic
+        target: /etc/traefik/dynamic.yml
+    networks:
+      - traefik-public
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+      update_config:
+        order: start-first
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.http.routers.dashboard.rule=Host(`traefik.scsi.digital`)'
+        - 'traefik.http.routers.dashboard.service=api@internal'
+        - 'traefik.http.routers.dashboard.middlewares=auth'
+        - 'traefik.http.middlewares.auth.basicauth.users=${TRAEFIK_USER:-admin}:${TRAEFIK_PASS}'
+
+  app:
+    image: ${REGISTRY:-registry.scsi.digital}/scsi-app:${TAG:-latest}
+    environment:
+      - DATABASE_URL=postgres://scsi:${POSTGRES_PASSWORD}@db:5432/scsi
+      - CELERY_BROKER_URL=amqp://scsi:${RABBITMQ_PASSWORD}@rabbitmq:5672//
+      - SECRET_KEY_FILE=/run/secrets/secret_key
+      - DEBUG=False
+      - ALLOWED_HOSTS=scsi.digital,www.scsi.digital
+      - CSRF_TRUSTED_ORIGINS=https://scsi.digital,https://www.scsi.digital
+      - TIME_ZONE=America/Sao_Paulo
+      - LANGUAGE_CODE=pt-br
+    secrets:
+      - secret_key
+      - postgres_password
+      - rabbitmq_password
+    networks:
+      - scsi-internal
+      - traefik-public
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    healthcheck:
+      test: ['CMD-SHELL', 'python -c "import urllib.request; urllib.request.urlopen(\"http://localhost:8000/health/\", timeout=5)"']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      update_config:
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.http.routers.scsi.rule=Host(`scsi.digital`) || Host(`www.scsi.digital`)'
+        - 'traefik.http.routers.scsi.entrypoints=websecure'
+        - 'traefik.http.routers.scsi.tls.certresolver=cloudflare'
+        - 'traefik.http.services.scsi.loadbalancer.server.port=8000'
+        - 'traefik.http.routers.scsi.middlewares=redirect-www'
+        - 'traefik.http.middlewares.redirect-www.redirectregex.regex=^https://www\.(.*)'
+        - 'traefik.http.middlewares.redirect-www.redirectregex.replacement=https://$${1}'
+        - 'traefik.http.middlewares.redirect-www.redirectregex.permanent=true'
+
+  celery_worker:
+    image: ${REGISTRY:-registry.scsi.digital}/scsi-app:${TAG:-latest}
+    environment:
+      - DATABASE_URL=postgres://scsi:${POSTGRES_PASSWORD}@db:5432/scsi
+      - CELERY_BROKER_URL=amqp://scsi:${RABBITMQ_PASSWORD}@rabbitmq:5672//
+      - SECRET_KEY_FILE=/run/secrets/secret_key
+      - TIME_ZONE=America/Sao_Paulo
+    entrypoint: ['sh', '/app/docker/entrypoint-celery.sh']
+    command: ['celery', '-A', 'core', 'worker', '--loglevel=info', '--concurrency=4']
+    volumes:
+      - scsi_media:/app/media
+    secrets:
+      - secret_key
+      - postgres_password
+      - rabbitmq_password
+    networks:
+      - scsi-internal
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+      update_config:
+        order: start-first
+        failure_action: rollback
+
+  celery_beat:
+    image: ${REGISTRY:-registry.scsi.digital}/scsi-app:${TAG:-latest}
+    environment:
+      - DATABASE_URL=postgres://scsi:${POSTGRES_PASSWORD}@db:5432/scsi
+      - CELERY_BROKER_URL=amqp://scsi:${RABBITMQ_PASSWORD}@rabbitmq:5672//
+      - SECRET_KEY_FILE=/run/secrets/secret_key
+      - TIME_ZONE=America/Sao_Paulo
+    entrypoint: ['sh', '/app/docker/entrypoint-celery.sh']
+    command: ['celery', '-A', 'core', 'beat', '--loglevel=info']
+    secrets:
+      - secret_key
+      - postgres_password
+      - rabbitmq_password
+
+  db:
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_DB=scsi
+      - POSTGRES_USER=scsi
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+    volumes:
+      - scsi_postgres:/var/lib/postgresql/data
+    secrets:
+      - postgres_password
+    networks:
+      - scsi-internal
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U scsi -d scsi']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+      restart_policy:
+        condition: any
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - scsi_redis:/data
+    networks:
+      - scsi-internal
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+      restart_policy:
+        condition: any
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=scsi
+      - RABBITMQ_DEFAULT_PASS_FILE=/run/secrets/rabbitmq_password
+    volumes:
+      - scsi_rabbitmq:/var/lib/rabbitmq
+    secrets:
+      - rabbitmq_password
+    networks:
+      - scsi-internal
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', 'check_port_connectivity']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+      restart_policy:
+        condition: any

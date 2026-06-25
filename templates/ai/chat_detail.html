@@ -1,0 +1,105 @@
+{% extends 'base_app.html' %}
+
+{% block title %}{{ session.title|default:'Chat' }} | SCSI{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <div class="text-xs text-blue-400 mb-1 tracking-widest uppercase">// Chat IA</div>
+        <h1 class="text-2xl font-dot tracking-tight text-white truncate max-w-md">{{ session.title|default:'Nova conversa' }}</h1>
+    </div>
+    <div class="flex gap-3">
+        <form method="post" action="{% url 'chat_new' %}">
+            {% csrf_token %}
+            <button type="submit" class="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Nova</button>
+        </form>
+        <a href="{% url 'chat_list' %}" class="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Voltar</a>
+    </div>
+</div>
+
+<div class="rounded-3xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent shadow-[0_30px_100px_-20px_rgba(0,0,0,1)] mb-4">
+    <div class="bg-[#1C1F26] rounded-3xl overflow-hidden flex flex-col ring-1 ring-white/5" style="height: calc(100vh - 280px); min-height: 400px;">
+        <div id="chat-messages" class="flex-1 overflow-y-auto px-6 py-6 space-y-4 kanban-scroll">
+            {% for msg in messages %}
+                <div class="flex {% if msg.role == 'user' %}justify-end{% endif %}">
+                    <div class="max-w-[80%] md:max-w-[65%] {% if msg.role == 'user' %}bg-blue-500/10 border border-blue-500/20 rounded-2xl px-4 py-3{% else %}bg-[#262A34] border border-white/5 rounded-2xl px-4 py-3{% endif %}">
+                        {% if msg.role == 'user' %}
+                            <p class="text-xs text-white">{{ msg.content }}</p>
+                        {% else %}
+                            <div class="prose-xs text-gray-300 leading-relaxed text-xs">{{ msg.content|linebreaksbr }}</div>
+                        {% endif %}
+                        <div class="text-[10px] text-gray-600 mt-2">{{ msg.created_at|date:'H:i' }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div id="chat-typing" class="hidden">
+                <div class="flex items-center gap-2 text-xs text-gray-500">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    Assistente está digitando...
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-white/5 px-6 py-4 bg-[#22252D]">
+            <form id="chat-form" method="post" action="{% url 'chat_send' session.pk %}" class="flex gap-3">
+                {% csrf_token %}
+                <input type="text" name="content" id="chat-input" placeholder="Digite sua mensagem..." autofocus class="flex-1 rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50" required>
+                <button type="submit" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium transition-colors">Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var messagesEl = document.getElementById('chat-messages');
+    var form = document.getElementById('chat-form');
+    var input = document.getElementById('chat-input');
+    var typing = document.getElementById('chat-typing');
+
+    if (messagesEl) {
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            var val = input.value.trim();
+            if (!val) {
+                e.preventDefault();
+                return;
+            }
+
+            if (window.XMLHttpRequest) {
+                e.preventDefault();
+                var xhr = new XMLHttpRequest();
+                var formData = new FormData(form);
+                xhr.open('POST', form.action, true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        var userDiv = document.createElement('div');
+                        userDiv.className = 'flex justify-end';
+                        userDiv.innerHTML = '<div class="max-w-[80%] md:max-w-[65%] bg-blue-500/10 border border-blue-500/20 rounded-2xl px-4 py-3"><p class="text-xs text-white">' + data.user_message.replace(/</g, '&lt;') + '</p><div class="text-[10px] text-gray-600 mt-2">Agora</div></div>';
+                        messagesEl.insertBefore(userDiv, typing);
+
+                        var assistantDiv = document.createElement('div');
+                        assistantDiv.className = 'flex';
+                        assistantDiv.innerHTML = '<div class="max-w-[80%] md:max-w-[65%] bg-[#262A34] border border-white/5 rounded-2xl px-4 py-3"><div class="text-xs text-gray-300 leading-relaxed">' + data.assistant_message + '</div><div class="text-[10px] text-gray-600 mt-2">Agora</div></div>';
+                        messagesEl.insertBefore(assistantDiv, typing);
+
+                        input.value = '';
+                        messagesEl.scrollTop = messagesEl.scrollHeight;
+                    }
+                };
+
+                typing.classList.remove('hidden');
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+                xhr.send(formData);
+            }
+        });
+    }
+})();
+</script>
+{% endblock %}

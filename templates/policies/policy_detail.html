@@ -1,0 +1,106 @@
+{% extends 'base_app.html' %}
+
+{% block title %}{{ object }} | Apólices | SCSI{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+    <div>
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Apólice</div>
+        <h1 class="text-4xl md:text-5xl font-dot tracking-tight mb-2">{{ object }}</h1>
+        <p class="text-sm text-gray-400">{{ object.client }} · {{ object.branch }}</p>
+    </div>
+    <div class="flex gap-3">
+        {% if object.proposal %}
+            <a href="{% url 'proposal_detail' object.proposal.pk %}" class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Ver Proposta</a>
+        {% endif %}
+        <a href="{% url 'policy_update' object.pk %}" class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all">Editar</a>
+        <a href="{% url 'policy_delete' object.pk %}" class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Excluir</a>
+    </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+    <div class="rounded-2xl border border-white/5 bg-[#1C1F26] divide-y divide-white/5">
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Status</div>
+            <div class="md:col-span-8 text-xs">
+                {% if object.status == 'active' %}<span class="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">Ativa</span>
+                {% elif object.status == 'cancelled' %}<span class="px-2 py-1 rounded-md bg-red-500/10 text-red-400 text-xs border border-red-500/20">Cancelada</span>
+                {% elif object.status == 'expired' %}<span class="px-2 py-1 rounded-md bg-gray-500/10 text-gray-400 text-xs border border-gray-500/20">Expirada</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Nº Apólice</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.policy_number|default:'-' }}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Proposta</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.proposal|default:'Cadastro direto' }}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Cliente</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.client }}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Ramo</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.branch }}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Seguradora</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.insurer|default:'-' }}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Vigência</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.start_date|date:'d/m/Y'|default:'-' }} — {{ object.end_date|date:'d/m/Y'|default:'-' }}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Prêmio</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{% if object.premium_value %}R$ {{ object.premium_value|floatformat:2 }}{% else %}-{% endif %}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Importância Segurada</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{% if object.insured_value %}R$ {{ object.insured_value|floatformat:2 }}{% else %}-{% endif %}</div>
+        </div>
+        <div class="grid md:grid-cols-12 gap-3 px-6 py-5">
+            <div class="md:col-span-4 text-xs text-gray-500 uppercase tracking-widest">Observações</div>
+            <div class="md:col-span-8 text-xs text-gray-300">{{ object.notes|default:'Sem observações.' }}</div>
+        </div>
+    </div>
+
+    <div class="flex flex-col gap-6">
+        <div class="rounded-2xl border border-white/5 bg-[#1C1F26] p-6">
+            <h3 class="text-base font-dot tracking-tight mb-4">Coberturas</h3>
+            {% if coverages_list %}
+                <div class="flex flex-wrap gap-2">
+                    {% for coverage in coverages_list %}
+                        <span class="px-3 py-1.5 rounded-md bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">{{ coverage }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-xs text-gray-500">Nenhuma cobertura vinculada.</p>
+            {% endif %}
+        </div>
+
+        <div class="rounded-2xl border border-white/5 bg-[#1C1F26] p-6">
+            <h3 class="text-base font-dot tracking-tight mb-4">Itens Cobertos</h3>
+            {% if covered_items_list %}
+                <div class="divide-y divide-white/5">
+                    {% for item in covered_items_list %}
+                        <div class="py-3 first:pt-0 last:pb-0">
+                            <div class="text-xs text-white">{{ item }}</div>
+                            <div class="text-xs text-gray-500 mt-1">{{ item.get_item_type_display }} · {{ item.identifier|default:'sem identificador' }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-xs text-gray-500">Nenhum item coberto vinculado.</p>
+            {% endif %}
+        </div>
+
+        <div class="rounded-2xl border border-white/5 bg-[#262A34] p-6">
+            <h3 class="text-base font-dot tracking-tight mb-2">Resumo IA</h3>
+            <p class="text-xs text-gray-400 leading-relaxed">{{ object.ai_summary|default:'Nenhum resumo gerado ainda.' }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

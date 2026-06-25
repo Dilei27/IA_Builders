@@ -1,0 +1,72 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Criar conta free | SCSI{% endblock %}
+
+{% block content %}
+<main class="relative z-10 max-w-6xl mx-auto px-6 py-16">
+    <div class="grid md:grid-cols-2 gap-8 items-start">
+        <div class="pt-8">
+            <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Onboarding</div>
+            <h1 class="text-5xl md:text-6xl tracking-tight text-white mb-6 leading-[1.1] font-dot">Crie sua corretora no plano free</h1>
+            <p class="text-sm text-gray-400 leading-relaxed mb-8">Informe os dados da corretora e do usuário dono/admin. O plano free é o único habilitado neste momento e não exige cartão de crédito.</p>
+            <div class="rounded-2xl bg-[#262A34] border border-white/5 p-6 ring-1 ring-blue-500/20">
+                <span class="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">Free selecionado</span>
+                <div class="text-3xl font-dot tracking-tight mt-6">R$ 0</div>
+                <div class="text-xs text-gray-500 mt-1">Sem cartão de crédito</div>
+            </div>
+        </div>
+        <div class="rounded-3xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent shadow-[0_30px_100px_-20px_rgba(0,0,0,1)]">
+            <div class="bg-[#1C1F26] rounded-3xl p-8 border border-white/5">
+                <form method="post" class="space-y-5">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="rounded-2xl bg-red-500/10 border border-red-500/20 text-red-300 p-4 text-xs">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label for="{{ form.legal_name.id_for_label }}" class="block text-xs text-gray-400 mb-2">Razão Social *</label>
+                            <input type="text" name="{{ form.legal_name.html_name }}" id="{{ form.legal_name.id_for_label }}" value="{{ form.legal_name.value|default_if_none:'' }}" required class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+                            {% if form.legal_name.errors %}<div class="text-xs text-red-300 mt-2">{{ form.legal_name.errors }}</div>{% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.cnpj.id_for_label }}" class="block text-xs text-gray-400 mb-2">CNPJ *</label>
+                            <input type="text" name="{{ form.cnpj.html_name }}" id="{{ form.cnpj.id_for_label }}" value="{{ form.cnpj.value|default_if_none:'' }}" required class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+                            {% if form.cnpj.errors %}<div class="text-xs text-red-300 mt-2">{{ form.cnpj.errors }}</div>{% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.trade_name.id_for_label }}" class="block text-xs text-gray-400 mb-2">Nome Fantasia</label>
+                            <input type="text" name="{{ form.trade_name.html_name }}" id="{{ form.trade_name.id_for_label }}" value="{{ form.trade_name.value|default_if_none:'' }}" class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="{{ form.brokerage_email.id_for_label }}" class="block text-xs text-gray-400 mb-2">Email da corretora</label>
+                            <input type="email" name="{{ form.brokerage_email.html_name }}" id="{{ form.brokerage_email.id_for_label }}" value="{{ form.brokerage_email.value|default_if_none:'' }}" class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+                        </div>
+                    </div>
+                    <div class="border-t border-white/5 pt-5 grid md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label for="{{ form.full_name.id_for_label }}" class="block text-xs text-gray-400 mb-2">Nome do responsável *</label>
+                            <input type="text" name="{{ form.full_name.html_name }}" id="{{ form.full_name.id_for_label }}" value="{{ form.full_name.value|default_if_none:'' }}" required class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="{{ form.email.id_for_label }}" class="block text-xs text-gray-400 mb-2">Email de acesso *</label>
+                            <input type="email" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value|default_if_none:'' }}" required class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+                            {% if form.email.errors %}<div class="text-xs text-red-300 mt-2">{{ form.email.errors }}</div>{% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.password1.id_for_label }}" class="block text-xs text-gray-400 mb-2">Senha *</label>
+                            <input type="password" name="{{ form.password1.html_name }}" id="{{ form.password1.id_for_label }}" required class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+                        </div>
+                        <div>
+                            <label for="{{ form.password2.id_for_label }}" class="block text-xs text-gray-400 mb-2">Confirmar senha *</label>
+                            <input type="password" name="{{ form.password2.html_name }}" id="{{ form.password2.id_for_label }}" required class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+                            {% if form.password2.errors %}<div class="text-xs text-red-300 mt-2">{{ form.password2.errors }}</div>{% endif %}
+                        </div>
+                    </div>
+                    <input type="hidden" name="{{ form.plan.html_name }}" value="free">
+                    <button type="submit" class="w-full px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">Criar conta free →</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

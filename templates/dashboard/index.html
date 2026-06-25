@@ -1,0 +1,102 @@
+{% extends 'base_app.html' %}
+
+{% block title %}Dashboard | SCSI{% endblock %}
+
+{% block content %}
+<div class="mb-10">
+    <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Dashboard</div>
+    <h1 class="text-4xl md:text-5xl font-dot tracking-tight mb-2">Visão geral</h1>
+    <p class="text-sm text-gray-400">{{ request.brokerage|default:'Sem corretora' }}</p>
+</div>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+    <div class="rounded-2xl bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 p-6">
+        <iconify-icon icon="solar:users-group-rounded-linear" width="24" class="text-blue-400 mb-3"></iconify-icon>
+        <div class="text-4xl font-dot tracking-tight text-white mb-1">{{ client_count }}</div>
+        <div class="text-xs text-gray-500">Clientes</div>
+    </div>
+    <div class="rounded-2xl bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/20 p-6">
+        <iconify-icon icon="solar:buildings-linear" width="24" class="text-purple-400 mb-3"></iconify-icon>
+        <div class="text-4xl font-dot tracking-tight text-white mb-1">{{ insurer_count }}</div>
+        <div class="text-xs text-gray-500">Seguradoras</div>
+    </div>
+    <div class="rounded-2xl bg-gradient-to-br from-emerald-500/10 to-transparent border border-emerald-500/20 p-6">
+        <iconify-icon icon="solar:document-text-linear" width="24" class="text-emerald-400 mb-3"></iconify-icon>
+        <div class="text-4xl font-dot tracking-tight text-white mb-1">{{ proposal_count }}</div>
+        <div class="text-xs text-gray-500">Propostas</div>
+    </div>
+    <div class="rounded-2xl bg-gradient-to-br from-orange-500/10 to-transparent border border-orange-500/20 p-6">
+        <iconify-icon icon="solar:shield-check-linear" width="24" class="text-orange-400 mb-3"></iconify-icon>
+        <div class="text-4xl font-dot tracking-tight text-white mb-1">{{ policy_count }}</div>
+        <div class="text-xs text-gray-500">Apólices</div>
+    </div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+    <div class="rounded-2xl border border-white/5 bg-[#1C1F26] p-6">
+        <h3 class="text-base font-dot tracking-tight mb-4">Propostas por status</h3>
+        <div class="space-y-3">
+            {% for item in proposals_by_status %}
+                <div>
+                    <div class="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>{{ item.get_status_display }}</span>
+                        <span>{{ item.total }}</span>
+                    </div>
+                    <div class="h-2 rounded-full bg-[#262A34] overflow-hidden">
+                        <div class="h-full rounded-full bg-blue-500/60 transition-all" style="width: {% widthratio item.total proposal_count 100 %}%"></div>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-xs text-gray-500">Nenhuma proposta registrada.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="rounded-2xl border border-white/5 bg-[#1C1F26] p-6">
+        <h3 class="text-base font-dot tracking-tight mb-4">Apólices por status</h3>
+        <div class="space-y-3">
+            {% for item in policies_by_status %}
+                <div>
+                    <div class="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>{{ item.get_status_display }}</span>
+                        <span>{{ item.total }}</span>
+                    </div>
+                    <div class="h-2 rounded-full bg-[#262A34] overflow-hidden">
+                        <div class="h-full rounded-full bg-emerald-500/60 transition-all" style="width: {% widthratio item.total policy_count 100 %}%"></div>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-xs text-gray-500">Nenhuma apólice registrada.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="rounded-2xl border border-white/5 bg-[#1C1F26] p-6 mb-8">
+    <h3 class="text-base font-dot tracking-tight mb-4">Funil de negociações</h3>
+    {% if deals_by_stage %}
+        <div class="space-y-4">
+            {% for stage in deals_by_stage %}
+                <div>
+                    <div class="flex justify-between text-xs text-gray-400 mb-1">
+                        <span class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full" style="background-color: {{ stage.color }}"></span>
+                            {{ stage.name }}
+                        </span>
+                        <span>{{ stage.count }}</span>
+                    </div>
+                    <div class="h-8 rounded-lg bg-[#262A34] overflow-hidden flex">
+                        <div class="h-full rounded-lg transition-all flex items-center justify-end pr-2 text-xs font-medium" style="width: {{ stage.width_pct }}%; background-color: {{ stage.color }}; min-width: {% if stage.count > 0 %}40px{% else %}0{% endif %}">
+                            {% if stage.count > 0 %}{{ stage.count }}{% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if total_deals > 0 %}
+            <div class="mt-4 text-xs text-gray-500">Total: {{ total_deals }} negociações ativas</div>
+        {% endif %}
+    {% else %}
+        <p class="text-xs text-gray-500">Nenhuma negociação registrada. Crie etapas e negociações no CRM.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'clients/base.html' %}
+
+{% block title %}Clientes | SCSI{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+    <div>
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Clientes</div>
+        <h1 class="text-4xl md:text-5xl font-dot tracking-tight mb-2">Carteira de clientes</h1>
+        <p class="text-sm text-gray-400">Clientes isolados por corretora autenticada.</p>
+    </div>
+    <a href="{% url 'client_create' %}" class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">Novo cliente →</a>
+</div>
+
+<form method="get" class="mb-6">
+    <div class="flex gap-3">
+        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Buscar por nome..." class="w-full rounded-xl bg-[#262A34] border border-white/10 px-4 py-3 text-sm text-white outline-none focus:border-blue-500/50">
+        <button class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Buscar</button>
+    </div>
+</form>
+
+<div class="rounded-2xl border border-white/5 bg-[#1C1F26] divide-y divide-white/5">
+    <div class="grid grid-cols-12 px-6 py-4 text-xs text-gray-500 uppercase tracking-widest">
+        <div class="col-span-5">Cliente</div>
+        <div class="col-span-2 hidden md:block">Tipo</div>
+        <div class="col-span-3 hidden md:block">Contato</div>
+        <div class="col-span-2 text-right">Ações</div>
+    </div>
+    {% for client in clients %}
+        <div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-white/[0.02] transition-colors">
+            <div class="col-span-8 md:col-span-5">
+                <a href="{{ client.get_absolute_url }}" class="text-xs text-white">{{ client.name }}</a>
+                <div class="text-xs text-gray-500 mt-1">{{ client.document|default:'Sem documento' }}</div>
+            </div>
+            <div class="col-span-2 hidden md:block text-xs text-gray-400">{{ client.get_person_type_display }}</div>
+            <div class="col-span-3 hidden md:block text-xs text-gray-400">{{ client.email|default:client.phone|default:'Sem contato' }}</div>
+            <div class="col-span-4 md:col-span-2 text-right">
+                <a href="{{ client.get_absolute_url }}" class="text-xs text-blue-400 hover:text-white transition-colors">Detalhe</a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="px-6 py-12 text-center">
+            <div class="text-3xl font-dot tracking-tight mb-2">Nenhum cliente cadastrado</div>
+            <p class="text-xs text-gray-500 mb-6">Crie o primeiro cliente da sua corretora.</p>
+            <a href="{% url 'client_create' %}" class="inline-flex px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all">Criar cliente</a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}SCSI | Gestão inteligente para corretoras{% endblock %}
+
+{% block content %}
+<main class="relative z-10 pt-16 md:pt-24 pb-12 px-4 flex flex-col items-center text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-xs text-gray-300">Plano free disponível para novas corretoras</span>
+    </div>
+    <h1 class="text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-6 max-w-4xl mx-auto leading-[1.1] font-dot">Sistema de gestão para corretoras de seguros inteligentes</h1>
+    <p class="text-sm md:text-base text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">Centralize clientes, propostas, apólices, sinistros, renovações, CRM e relatórios em uma plataforma SaaS multi-tenant preparada para IA.</p>
+    <div class="flex flex-col sm:flex-row gap-3 items-center">
+        <a href="{% url 'signup' %}" class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">Criar conta free →</a>
+        <a href="{% url 'login' %}" class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Entrar na plataforma</a>
+    </div>
+    <div class="grid grid-cols-3 gap-6 md:gap-16 mt-16 max-w-2xl">
+        <div class="text-center"><div class="text-3xl md:text-4xl text-white font-dot tracking-tight">1</div><div class="text-xs text-gray-500 mt-1">corretora isolada</div></div>
+        <div class="text-center border-x border-white/5"><div class="text-3xl md:text-4xl text-white font-dot tracking-tight">Free</div><div class="text-xs text-gray-500 mt-1">plano inicial</div></div>
+        <div class="text-center"><div class="text-3xl md:text-4xl text-white font-dot tracking-tight">0</div><div class="text-xs text-gray-500 mt-1">cartão obrigatório</div></div>
+    </div>
+</main>
+
+<section id="features" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+    <div class="text-center mb-16">
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Recursos</div>
+        <h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Operação completa em um único painel</h2>
+        <p class="text-sm text-gray-400 max-w-xl mx-auto">Padrões visuais preservam o design system atual: superfícies escuras, cards densos, acentos semânticos e CTAs compactos.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+        <div class="rounded-2xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent"><div class="bg-[#1C1F26] rounded-2xl p-6 h-full"><div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-4"><iconify-icon icon="solar:users-group-rounded-linear" width="20"></iconify-icon></div><h3 class="text-base font-dot mb-2 tracking-tight">Clientes e CRM</h3><p class="text-xs text-gray-400 leading-relaxed mb-4">Gerencie carteira, pipeline e oportunidades por corretora.</p><div class="text-xs text-gray-500 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-blue-400"></span>Isolamento por tenant</div></div></div>
+        <div class="rounded-2xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent"><div class="bg-[#1C1F26] rounded-2xl p-6 h-full"><div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-4"><iconify-icon icon="solar:document-text-linear" width="20"></iconify-icon></div><h3 class="text-base font-dot mb-2 tracking-tight">Propostas e apólices</h3><p class="text-xs text-gray-400 leading-relaxed mb-4">Fluxos operacionais para propostas, apólices, endossos e renovações.</p><div class="text-xs text-gray-500 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-purple-400"></span>Backoffice seguro</div></div></div>
+        <div class="rounded-2xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent"><div class="bg-[#1C1F26] rounded-2xl p-6 h-full"><div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4"><iconify-icon icon="solar:chart-square-linear" width="20"></iconify-icon></div><h3 class="text-base font-dot mb-2 tracking-tight">Relatórios e IA</h3><p class="text-xs text-gray-400 leading-relaxed mb-4">Dashboards, relatórios e agentes de IA respeitando o tenant.</p><div class="text-xs text-gray-500 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-emerald-400"></span>Pronto para automação</div></div></div>
+    </div>
+</section>
+
+<section id="plans" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+    <div class="text-center mb-16">
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Planos</div>
+        <h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Comece pelo plano free</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-4">
+        <div class="bg-[#262A34] rounded-2xl border border-white/5 p-6 ring-1 ring-blue-500/20"><span class="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">Habilitado</span><h3 class="text-3xl font-dot tracking-tight mt-6 mb-2">Free</h3><p class="text-xs text-gray-400 leading-relaxed mb-6">Crie sua corretora sem cartão de crédito.</p><a href="{% url 'signup' %}" class="inline-flex px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">Selecionar free</a></div>
+        <div class="bg-[#262A34]/50 rounded-2xl border border-white/5 p-6 opacity-60"><span class="px-2 py-1 rounded-md bg-gray-500/10 text-gray-400 text-xs border border-gray-500/20">Em breve</span><h3 class="text-3xl font-dot tracking-tight mt-6 mb-2">Pro</h3><p class="text-xs text-gray-400 leading-relaxed mb-6">Recursos avançados para equipes maiores.</p><button disabled class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium backdrop-blur-md opacity-50">Em breve</button></div>
+        <div class="bg-[#262A34]/50 rounded-2xl border border-white/5 p-6 opacity-60"><span class="px-2 py-1 rounded-md bg-gray-500/10 text-gray-400 text-xs border border-gray-500/20">Em breve</span><h3 class="text-3xl font-dot tracking-tight mt-6 mb-2">Enterprise</h3><p class="text-xs text-gray-400 leading-relaxed mb-6">Operações multiunidade e suporte dedicado.</p><button disabled class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium backdrop-blur-md opacity-50">Em breve</button></div>
+    </div>
+</section>
+{% endblock %}

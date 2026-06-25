@@ -1,0 +1,22 @@
+{% extends 'clients/base.html' %}
+
+{% block title %}{{ client.name }} | SCSI{% endblock %}
+
+{% block content %}
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
+    <div>
+        <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Detalhe do cliente</div>
+        <h1 class="text-4xl md:text-5xl font-dot tracking-tight mb-2">{{ client.name }}</h1>
+        <p class="text-sm text-gray-400">{{ client.get_person_type_display }} · {{ client.document|default:'sem documento' }}</p>
+    </div>
+    <div class="flex gap-3">
+        <a href="{% url 'client_update' client.pk %}" class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all">Editar</a>
+        <a href="{% url 'client_delete' client.pk %}" class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Excluir</a>
+    </div>
+</div>
+<div class="grid md:grid-cols-3 gap-4">
+    <div class="rounded-2xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent md:col-span-2"><div class="bg-[#1C1F26] rounded-2xl p-6 h-full"><h2 class="text-base font-dot mb-4 tracking-tight">Dados principais</h2><div class="grid md:grid-cols-2 gap-4 text-xs text-gray-400"><div><span class="text-gray-500">Email</span><div class="text-white mt-1">{{ client.email|default:'-' }}</div></div><div><span class="text-gray-500">Telefone</span><div class="text-white mt-1">{{ client.phone|default:'-' }}</div></div><div><span class="text-gray-500">Cidade/UF</span><div class="text-white mt-1">{{ client.city|default:'-' }}{% if client.state %}/{{ client.state }}{% endif %}</div></div><div><span class="text-gray-500">Status</span><div class="text-white mt-1">{% if client.is_active %}Ativo{% else %}Inativo{% endif %}</div></div></div></div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-6"><h2 class="text-base font-dot mb-4 tracking-tight">Resumo IA</h2><p class="text-xs text-gray-400 leading-relaxed">{{ client.ai_summary|default:'Nenhum resumo gerado ainda.' }}</p></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-6 md:col-span-3"><h2 class="text-base font-dot mb-4 tracking-tight">Observações</h2><p class="text-xs text-gray-400 leading-relaxed">{{ client.notes|default:'Sem observações.' }}</p></div>
+</div>
+{% endblock %}

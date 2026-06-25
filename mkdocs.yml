@@ -1,0 +1,24 @@
+site_name: SCSI Docs
+site_description: Documentacao do Sistema de Gestao para Corretora de Seguros Inteligente
+repo_url: https://github.com/example/scsi
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: blue
+  font:
+    text: JetBrains Mono
+    code: JetBrains Mono
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+nav:
+  - Inicio: index.md
+  - Arquitetura: architecture.md
+  - Setup: setup.md
+  - Modelos: models.md

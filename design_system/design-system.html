@@ -1,0 +1,218 @@
+<html lang="en" class="antialiased scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexura Design System</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&amp;display=swap">
+<style>
+.font-dot { font-family: 'DotGothic16', sans-serif; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+.kanban-scroll::-webkit-scrollbar { height: 6px; width: 6px; }
+.kanban-scroll::-webkit-scrollbar-track { background: transparent; }
+.kanban-scroll::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.1); border-radius: 10px; }
+.grid-bg { background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 60px 60px; }
+</style>
+<style>
+.reveal{opacity:0;transform:translateY(20px);filter:blur(8px);transition:opacity .8s ease-out,transform .8s ease-out,filter .8s ease-out}.reveal.in-view{opacity:1;transform:translateY(0);filter:blur(0)}.reveal-left{opacity:0;transform:translateX(-30px);filter:blur(8px);transition:opacity .8s ease-out,transform .8s ease-out,filter .8s ease-out}.reveal-left.in-view{opacity:1;transform:translateX(0);filter:blur(0)}.reveal-right{opacity:0;transform:translateX(30px);filter:blur(8px);transition:opacity .8s ease-out,transform .8s ease-out,filter .8s ease-out}.reveal-right.in-view{opacity:1;transform:translateX(0);filter:blur(0)}.reveal-fade{opacity:0;filter:blur(8px);transition:opacity .8s ease-out,filter .8s ease-out}.reveal-fade.in-view{opacity:1;filter:blur(0)}
+</style>
+</head>
+<body class="bg-[#0B0F19] text-white font-mono overflow-x-hidden min-h-screen selection:bg-blue-500/30">
+<div class="fixed top-0 left-0 right-0 z-[100] bg-[#0B0F19]/90 backdrop-blur-md border-b border-white/5">
+  <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4 overflow-x-auto kanban-scroll text-xs text-gray-400 font-medium">
+    <a href="#0" class="hover:text-white transition-colors whitespace-nowrap">0 Shell</a>
+    <a href="#1" class="hover:text-white transition-colors whitespace-nowrap">1 Tipografia</a>
+    <a href="#2" class="hover:text-white transition-colors whitespace-nowrap">2 Cores</a>
+    <a href="#3" class="hover:text-white transition-colors whitespace-nowrap">3 Navegação</a>
+    <a href="#5" class="hover:text-white transition-colors whitespace-nowrap">5 Dados</a>
+    <a href="#6" class="hover:text-white transition-colors whitespace-nowrap">6 UI</a>
+    <a href="#7" class="hover:text-white transition-colors whitespace-nowrap">7 Layout</a>
+    <a href="#8" class="hover:text-white transition-colors whitespace-nowrap">8 Motion</a>
+    <a href="#9" class="hover:text-white transition-colors whitespace-nowrap">9 Ícones</a>
+  </nav>
+</div>
+
+<div class="absolute inset-x-0 top-0 z-[-1] bg-[#0B0F19] h-screen">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-blue-500/10 blur-[120px]"></div>
+  <div class="absolute top-1/3 right-0 w-[500px] h-[500px] rounded-full bg-purple-500/10 blur-[120px]"></div>
+</div>
+
+<!-- ============================================================ -->
+<section id="0" class="pt-20">
+  <header class="w-full flex justify-between items-center px-6 md:px-10 py-6 z-50 relative reveal-fade">
+    <div class="flex items-center gap-2.5 text-white font-medium text-base">
+      <div class="bg-white text-[#0B0F19] rounded-lg p-1">
+        <iconify-icon icon="solar:ghost-smile-bold" width="20"></iconify-icon>
+      </div>
+      <span class="tracking-tight font-mono">Nexura</span>
+    </div>
+    <nav class="hidden md:flex items-center gap-8 text-xs text-gray-400 font-medium">
+      <a href="#1" class="hover:text-white transition-colors">Typography</a>
+      <a href="#2" class="hover:text-white transition-colors">Colors</a>
+      <a href="#6" class="hover:text-white transition-colors">Components</a>
+      <a href="#7" class="hover:text-white transition-colors">Layouts</a>
+    </nav>
+    <div class="flex items-center gap-6">
+      <a href="#5" class="text-xs text-gray-300 hover:text-white transition-colors hidden sm:block">See patterns</a>
+      <button class="px-5 py-2 rounded-full bg-white/10 border border-white/5 text-white text-xs font-medium hover:bg-white/20 transition-all backdrop-blur-md">Design system</button>
+    </div>
+  </header>
+  <main class="relative z-10 pt-16 md:pt-24 pb-12 px-4 flex flex-col items-center text-center reveal" data-delay="200">
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 reveal">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="text-xs text-gray-300">Live interface pattern library</span>
+    </div>
+    <h1 class="text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-6 max-w-4xl mx-auto leading-[1.1] font-dot reveal" data-delay="100">Nexura design system extracted from the original interface</h1>
+    <p class="text-sm md:text-base text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">A living reference for typography, colors, cards, data displays, layout patterns, motion and icons used by the current web interface.</p>
+    <div class="flex flex-col sm:flex-row gap-3 items-center reveal" data-delay="300">
+      <button class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">Primary action →</button>
+      <button class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Secondary action</button>
+    </div>
+    <div class="grid grid-cols-3 gap-6 md:gap-16 mt-16 max-w-2xl">
+      <div class="text-center reveal"><div class="text-3xl md:text-4xl text-white font-dot tracking-tight">3.2x</div><div class="text-xs text-gray-500 mt-1">Metric style</div></div>
+      <div class="text-center border-x border-white/5 reveal" data-delay="100"><div class="text-3xl md:text-4xl text-white font-dot tracking-tight">250+</div><div class="text-xs text-gray-500 mt-1">Stat block</div></div>
+      <div class="text-center reveal" data-delay="200"><div class="text-3xl md:text-4xl text-white font-dot tracking-tight">48h</div><div class="text-xs text-gray-500 mt-1">Caption text</div></div>
+    </div>
+  </main>
+</section>
+
+<!-- ============================================================ -->
+<section id="1" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+  <div class="text-center mb-16 reveal">
+    <div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Typography</div>
+    <h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Tipografia</h2>
+    <p class="text-sm text-gray-400 max-w-xl mx-auto">Hierarquia textual extraída das classes usadas no HTML original.</p>
+  </div>
+  <div class="rounded-2xl border border-white/5 bg-[#1C1F26] divide-y divide-white/5 reveal">
+    <div class="grid grid-cols-12 px-6 py-4 text-xs text-gray-500 uppercase tracking-widest"><div class="col-span-3">Nome</div><div class="col-span-6">Preview</div><div class="col-span-3 text-right">Classe original</div></div>
+    <div class="grid grid-cols-12 px-6 py-5 items-center"><div class="col-span-3 text-xs text-gray-500">Page Title</div><div class="col-span-6"><h1 class="text-5xl md:text-6xl lg:text-7xl tracking-tight text-white leading-[1.1] font-dot">High-performance headline</h1></div><div class="col-span-3 text-right text-xs text-gray-500">text-5xl md:text-6xl lg:text-7xl / leading-[1.1]</div></div>
+    <div class="grid grid-cols-12 px-6 py-5 items-center"><div class="col-span-3 text-xs text-gray-500">Section Heading</div><div class="col-span-6"><h2 class="text-4xl md:text-5xl font-dot tracking-tight">Built for ecom brands</h2></div><div class="col-span-3 text-right text-xs text-gray-500">text-4xl md:text-5xl</div></div>
+    <div class="grid grid-cols-12 px-6 py-5 items-center"><div class="col-span-3 text-xs text-gray-500">Card Title</div><div class="col-span-6"><h3 class="text-base font-dot mb-2 tracking-tight">Static Ad Production</h3></div><div class="col-span-3 text-right text-xs text-gray-500">text-base / font-dot</div></div>
+    <div class="grid grid-cols-12 px-6 py-5 items-center"><div class="col-span-3 text-xs text-gray-500">Body Text</div><div class="col-span-6"><p class="text-sm text-gray-400 leading-relaxed">Experience an agency-grade creative partnership focused on high-converting static ads.</p></div><div class="col-span-3 text-right text-xs text-gray-500">text-sm / leading-relaxed</div></div>
+    <div class="grid grid-cols-12 px-6 py-5 items-center"><div class="col-span-3 text-xs text-gray-500">Body Text Small</div><div class="col-span-6"><p class="text-xs text-gray-400 leading-relaxed">Conversion-tested static creatives across every placement.</p></div><div class="col-span-3 text-right text-xs text-gray-500">text-xs / leading-relaxed</div></div>
+    <div class="grid grid-cols-12 px-6 py-5 items-center"><div class="col-span-3 text-xs text-gray-500">Label</div><div class="col-span-6"><div class="text-xs text-blue-400 tracking-widest uppercase">// Features</div></div><div class="col-span-3 text-right text-xs text-gray-500">text-xs / tracking-widest / uppercase</div></div>
+    <div class="grid grid-cols-12 px-6 py-5 items-center"><div class="col-span-3 text-xs text-gray-500">Caption / Helper</div><div class="col-span-6"><div class="text-xs text-gray-500 mt-1">Avg ROAS lift</div></div><div class="col-span-3 text-right text-xs text-gray-500">text-xs / text-gray-500</div></div>
+    <div class="grid grid-cols-12 px-6 py-5 items-center"><div class="col-span-3 text-xs text-gray-500">Truncate</div><div class="col-span-6"><h6 class="menu-item-heading text-truncate-1-line text-base font-dot">A very long dashboard item title that should truncate after one line in constrained containers</h6></div><div class="col-span-3 text-right text-xs text-gray-500">text-truncate-1-line</div></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="2" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+  <div class="text-center mb-16 reveal"><div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Colors</div><h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Cores, superfícies e estados</h2></div>
+  <div class="grid md:grid-cols-3 gap-4 mb-8">
+    <div class="rounded-2xl bg-[#0B0F19] border border-white/5 p-6"><div class="text-xs text-gray-500 mb-2">Background principal</div><div class="text-base font-dot">bg-[#0B0F19]</div></div>
+    <div class="rounded-2xl bg-[#1C1F26] border border-white/5 p-6"><div class="text-xs text-gray-500 mb-2">Cards e painéis</div><div class="text-base font-dot">bg-[#1C1F26]</div></div>
+    <div class="rounded-2xl bg-[#262A34] border border-white/5 p-6"><div class="text-xs text-gray-500 mb-2">Cards densos</div><div class="text-base font-dot">bg-[#262A34]</div></div>
+  </div>
+  <div class="grid md:grid-cols-6 gap-4 mb-8">
+    <div class="rounded-2xl bg-blue-500/10 border border-blue-500/20 text-blue-400 p-5 text-xs">Info / Launch</div>
+    <div class="rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-400 p-5 text-xs">Marketing</div>
+    <div class="rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-5 text-xs">Success</div>
+    <div class="rounded-2xl bg-orange-500/10 border border-orange-500/20 text-orange-400 p-5 text-xs">Warning</div>
+    <div class="rounded-2xl bg-pink-500/10 border border-pink-500/20 text-pink-400 p-5 text-xs">Accent</div>
+    <div class="rounded-2xl bg-gray-500/10 border border-gray-500/20 text-gray-400 p-5 text-xs">Neutral</div>
+  </div>
+  <div class="grid md:grid-cols-3 gap-4">
+    <div class="rounded-2xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent"><div class="bg-[#1C1F26] rounded-2xl p-6 h-full"><div class="text-xs text-gray-500 mb-2">Gradient border surface</div><div class="text-base font-dot">from-white/20 via-white/5 to-transparent</div></div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-6 ring-1 ring-blue-500/20"><div class="text-xs text-gray-500 mb-2">Ring emphasis</div><div class="text-base font-dot">ring-blue-500/20</div></div>
+    <div class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium backdrop-blur-md"><div>Glass button surface</div></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="3" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+  <div class="text-center mb-16 reveal"><div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Navigation</div><h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Navegação e estrutura</h2></div>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="bg-[#1C1F26] rounded-2xl border border-white/5 p-6">
+      <div class="text-xs text-gray-500 mb-4">Header / Topbar</div>
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-2.5 text-white font-medium text-base"><div class="bg-white text-[#0B0F19] rounded-lg p-1"><iconify-icon icon="solar:ghost-smile-bold" width="20"></iconify-icon></div><span class="tracking-tight font-mono">Nexura</span></div>
+        <nav class="hidden md:flex items-center gap-8 text-xs text-gray-400 font-medium"><a href="#" class="hover:text-white transition-colors">Services</a><a href="#" class="hover:text-white transition-colors">Pricing</a><a href="#" class="hover:text-white transition-colors">Projects</a></nav>
+        <button class="px-5 py-2 rounded-full bg-white/10 border border-white/5 text-white text-xs font-medium hover:bg-white/20 transition-all backdrop-blur-md">Book a call</button>
+      </div>
+    </div>
+    <div class="bg-[#1C1F26] rounded-2xl border border-white/5 p-6">
+      <div class="text-xs text-gray-500 mb-4">Tabs no dashboard mockup</div>
+      <div class="hidden sm:flex items-center gap-1 bg-black/20 rounded-full p-1 border border-white/5"><button class="px-4 py-1 rounded-full bg-white/10 text-white text-xs font-semibold">Tasks</button><button class="px-4 py-1 rounded-full text-gray-400 text-xs font-medium">Shared</button><button class="px-4 py-1 rounded-full text-gray-400 text-xs font-medium">Templates</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="5" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+  <div class="text-center mb-16 reveal"><div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Data Display</div><h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Tabelas e exibição de dados</h2></div>
+  <div class="rounded-3xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent shadow-[0_30px_100px_-20px_rgba(0,0,0,1)] reveal mb-8">
+    <div class="bg-[#1C1F26] rounded-3xl overflow-hidden flex flex-col h-[500px] md:h-[580px] ring-1 ring-white/5">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-[#22252D]"><div class="flex items-center gap-8"><div class="flex items-center gap-2 text-white font-medium text-xs"><iconify-icon icon="solar:ghost-smile-bold" width="18"></iconify-icon><span>Nexura</span></div></div><div class="w-7 h-7 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 ring-2 ring-[#22252D]"></div></div>
+      <div class="flex flex-col h-full overflow-hidden bg-gradient-to-b from-[#1C1F26] to-[#14161C]"><div class="px-6 md:px-8 pt-6 pb-4"><div class="flex items-center gap-3 text-white mb-4"><h2 class="text-2xl tracking-tight font-dot">Tasks</h2><span class="px-2 py-0.5 rounded-md border border-white/10 bg-white/5 text-xs text-gray-300">8</span></div><div class="flex items-center justify-between gap-4"><div class="flex items-center gap-6 text-xs font-medium"><button class="text-white border-b-2 border-white pb-1">Board</button><button class="text-gray-500 pb-1">List</button></div><button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-medium transition-colors">+ New task</button></div></div>
+        <div class="flex-1 overflow-x-auto overflow-y-hidden px-6 md:px-8 pb-8 flex gap-6 kanban-scroll">
+          <div class="w-[280px] flex-shrink-0 flex flex-col"><div class="flex items-center justify-between text-gray-300 text-xs font-medium px-1 mb-4"><div class="flex items-center gap-2"><iconify-icon icon="solar:sun-2-linear" width="14"></iconify-icon><span>Active</span></div><iconify-icon icon="solar:menu-dots-bold" width="14" class="text-gray-500"></iconify-icon></div><div class="flex flex-col gap-3"><div class="bg-[#262A34] p-4 rounded-xl border border-white/5 hover:border-white/20 transition-all"><div class="flex justify-between items-start gap-2 mb-3"><h3 class="text-white text-xs font-dot">Q4 Holiday Campaign Assets</h3><div class="w-5 h-5 shrink-0 rounded-md bg-yellow-500/10 text-yellow-500 flex items-center justify-center"><iconify-icon icon="solar:star-bold" width="10"></iconify-icon></div></div><div class="flex items-center gap-2 text-xs text-gray-400 mb-3"><div class="w-5 h-5 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-semibold text-xs">H</div><span>Oct 12</span></div><div class="flex items-center justify-between pt-3 border-t border-white/5"><span class="px-2 py-1 rounded-md bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">Launch</span><div class="flex items-center gap-1 text-gray-500 text-xs"><iconify-icon icon="solar:chat-line-linear" width="12"></iconify-icon>1</div></div></div></div></div>
+          <div class="w-[280px] flex-shrink-0 flex flex-col"><div class="flex items-center justify-between text-gray-300 text-xs font-medium px-1 mb-4"><div class="flex items-center gap-2"><iconify-icon icon="solar:clock-circle-linear" width="14"></iconify-icon><span>In Progress</span></div><iconify-icon icon="solar:menu-dots-bold" width="14" class="text-gray-500"></iconify-icon></div><div class="flex flex-col gap-3"><div class="bg-[#262A34] p-4 rounded-xl border border-white/10 ring-1 ring-blue-500/30 relative overflow-hidden"><div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div><h3 class="text-white text-xs font-dot mb-3 pl-2">UGC Video Editing Batch 1</h3><div class="flex items-center gap-2 text-xs text-gray-400 mb-3 pl-2"><div class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold text-xs">M</div><span>Oct 15</span></div><div class="flex items-center justify-between pt-3 border-t border-white/5 pl-2"><span class="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">Video</span><div class="flex items-center gap-1 text-gray-500 text-xs"><iconify-icon icon="solar:chat-line-linear" width="12"></iconify-icon>8</div></div></div></div></div>
+          <div class="w-[280px] flex-shrink-0 flex flex-col"><div class="flex items-center justify-between text-gray-400 text-xs font-medium px-1 mb-4"><div class="flex items-center gap-2"><iconify-icon icon="solar:check-circle-linear" width="14"></iconify-icon><span>Done</span></div><iconify-icon icon="solar:menu-dots-bold" width="14" class="text-gray-600"></iconify-icon></div><div class="flex flex-col gap-3"><div class="bg-[#262A34]/50 p-4 rounded-xl border border-white/5 opacity-60"><h3 class="text-gray-400 text-xs line-through decoration-gray-600 font-dot mb-3">Rebranding Pitch Deck</h3><div class="flex items-center gap-2 text-xs text-gray-500 mb-3"><div class="w-5 h-5 rounded-full bg-gray-500/20 flex items-center justify-center text-xs">T</div><span>Oct 05</span></div><div class="flex items-center justify-between pt-3 border-t border-white/5"><span class="px-2 py-1 rounded-md bg-gray-500/10 text-gray-400 text-xs border border-gray-500/20">Strategy</span><div class="flex items-center gap-1 text-gray-600 text-xs"><iconify-icon icon="solar:chat-line-linear" width="12"></iconify-icon>12</div></div></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rounded-2xl border border-white/5 bg-[#1C1F26] divide-y divide-white/5 reveal"><div class="grid grid-cols-12 px-6 py-4 text-xs text-gray-500 uppercase tracking-widest"><div class="col-span-6">Inclusion</div><div class="col-span-3 hidden md:block">Volume</div><div class="col-span-3 text-right">Included</div></div><div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-white/[0.02] transition-colors"><div class="col-span-6 md:col-span-6 flex items-center gap-3"><div class="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400"><iconify-icon icon="solar:gallery-linear" width="14"></iconify-icon></div><span class="text-xs text-white">Static ad concepts</span></div><div class="col-span-3 hidden md:block text-xs text-gray-400">40 / month</div><div class="col-span-6 md:col-span-3 text-right"><iconify-icon icon="solar:check-circle-bold" width="18" class="text-emerald-400"></iconify-icon></div></div></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="6" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+  <div class="text-center mb-16 reveal"><div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// UI Components</div><h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Componentes de UI</h2></div>
+  <div class="grid md:grid-cols-2 gap-4 mb-8">
+    <div class="bg-[#1C1F26] rounded-2xl border border-white/5 p-6"><div class="text-xs text-gray-500 mb-4">Botões</div><div class="flex flex-wrap gap-3"><button class="px-6 py-3 rounded-full bg-white text-black font-semibold text-xs hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)]">Primary</button><button class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-all backdrop-blur-md">Secondary</button><button class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-xs font-medium transition-colors">Compact</button><button class="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-xs font-medium backdrop-blur-md opacity-50">Disabled visual</button></div></div>
+    <div class="bg-[#1C1F26] rounded-2xl border border-white/5 p-6"><div class="text-xs text-gray-500 mb-4">Badges / Tags</div><div class="flex flex-wrap gap-3"><span class="px-2 py-1 rounded-md bg-blue-500/10 text-blue-400 text-xs border border-blue-500/20">Launch</span><span class="px-2 py-1 rounded-md bg-purple-500/10 text-purple-400 text-xs border border-purple-500/20">Marketing</span><span class="px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs border border-emerald-500/20">Video</span><span class="px-2 py-1 rounded-md bg-gray-500/10 text-gray-400 text-xs border border-gray-500/20">Strategy</span></div></div>
+  </div>
+  <div class="grid md:grid-cols-3 gap-4">
+    <div class="rounded-2xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent reveal"><div class="bg-[#1C1F26] rounded-2xl p-6 h-full"><div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-4"><iconify-icon icon="solar:gallery-wide-linear" width="20"></iconify-icon></div><h3 class="text-base font-dot mb-2 tracking-tight">Feature Card</h3><p class="text-xs text-gray-400 leading-relaxed mb-4">Conversion-tested static creatives across every placement.</p><div class="text-xs text-gray-500 flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-blue-400"></span>40+ variations per cycle</div></div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-6 ring-1 ring-blue-500/20 reveal"><div class="flex gap-1 mb-4 text-yellow-400"><iconify-icon icon="solar:star-bold" width="14"></iconify-icon><iconify-icon icon="solar:star-bold" width="14"></iconify-icon><iconify-icon icon="solar:star-bold" width="14"></iconify-icon><iconify-icon icon="solar:star-bold" width="14"></iconify-icon><iconify-icon icon="solar:star-bold" width="14"></iconify-icon></div><p class="text-sm text-gray-200 leading-relaxed mb-6 font-dot">"The team feels like an extension of our in-house brand."</p><div class="flex items-center gap-3 pt-4 border-t border-white/5"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-pink-400"></div><div><div class="text-xs text-white">Jordan Rivera</div><div class="text-xs text-gray-500">CMO, Northbeam Co.</div></div></div></div>
+    <div class="col-span-12 md:col-span-1 rounded-2xl bg-gradient-to-br from-blue-500/20 via-[#1C1F26] to-[#1C1F26] border border-white/5 p-6 flex flex-col justify-between min-h-[200px] reveal"><iconify-icon icon="solar:rocket-linear" width="24" class="text-blue-300"></iconify-icon><div><div class="text-base font-dot tracking-tight">Bento Card</div><div class="text-xs text-gray-400 mt-1">48h turnaround, every batch.</div></div></div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<section id="7" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+  <div class="text-center mb-16 reveal"><div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Layout</div><h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Layout e espaçamento</h2></div>
+  <div class="grid md:grid-cols-3 gap-4 mb-8"><div class="rounded-2xl bg-[#262A34] border border-white/5 p-6"><div class="text-xs text-gray-500 mb-1">Section container</div><div class="text-xs text-white">max-w-6xl mx-auto px-6 py-24</div></div><div class="rounded-2xl bg-[#262A34] border border-white/5 p-6"><div class="text-xs text-gray-500 mb-1">Card grid</div><div class="text-xs text-white">grid md:grid-cols-3 gap-4</div></div><div class="rounded-2xl bg-[#262A34] border border-white/5 p-6"><div class="text-xs text-gray-500 mb-1">Bento grid</div><div class="text-xs text-white">grid grid-cols-12 gap-4</div></div></div>
+  <div class="grid grid-cols-12 gap-4"><div class="col-span-12 md:col-span-6 rounded-2xl p-[1px] bg-gradient-to-b from-white/20 via-white/5 to-transparent reveal-left"><div class="bg-[#1C1F26] rounded-2xl p-8 h-full relative overflow-hidden"><div class="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-blue-500/10 blur-3xl"></div><div class="relative"><div class="text-xs text-gray-500 mb-3">Average ROAS lift</div><div class="text-6xl md:text-7xl font-dot tracking-tight text-white mb-2">3.2x</div><p class="text-xs text-gray-400 max-w-xs">Large statistic bento layout.</p></div></div></div><div class="col-span-6 md:col-span-3 rounded-2xl bg-[#262A34] border border-white/5 p-6 reveal"><iconify-icon icon="solar:globus-linear" width="20" class="text-purple-400 mb-3"></iconify-icon><div class="text-3xl font-dot tracking-tight">12</div><div class="text-xs text-gray-500 mt-1">Countries</div></div><div class="col-span-6 md:col-span-3 rounded-2xl bg-[#262A34] border border-white/5 p-6 reveal"><iconify-icon icon="solar:users-group-rounded-linear" width="20" class="text-emerald-400 mb-3"></iconify-icon><div class="text-3xl font-dot tracking-tight">500+</div><div class="text-xs text-gray-500 mt-1">Creators</div></div></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="8" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+  <div class="text-center mb-16 reveal"><div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Motion</div><h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Motion e interação</h2></div>
+  <div class="grid md:grid-cols-4 gap-4"><div class="bg-[#262A34] rounded-2xl border border-white/5 p-6 reveal"><div class="text-base font-dot mb-2">reveal</div><p class="text-xs text-gray-400">translateY + blur + opacity.</p></div><div class="bg-[#262A34] rounded-2xl border border-white/5 p-6 reveal-left"><div class="text-base font-dot mb-2">reveal-left</div><p class="text-xs text-gray-400">translateX negative.</p></div><div class="bg-[#262A34] rounded-2xl border border-white/5 p-6 reveal-right"><div class="text-base font-dot mb-2">reveal-right</div><p class="text-xs text-gray-400">translateX positive.</p></div><div class="bg-[#262A34] rounded-2xl border border-white/5 p-6 reveal-fade"><div class="text-base font-dot mb-2">reveal-fade</div><p class="text-xs text-gray-400">opacity + blur only.</p></div></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="9" class="relative z-10 max-w-6xl mx-auto px-6 py-24">
+  <div class="text-center mb-16 reveal"><div class="text-xs text-blue-400 mb-3 tracking-widest uppercase">// Icons</div><h2 class="text-4xl md:text-5xl font-dot tracking-tight mb-4">Ícones</h2><p class="text-sm text-gray-400 max-w-xl mx-auto">Biblioteca usada: Iconify com pacote Solar.</p></div>
+  <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:ghost-smile-bold" width="24" class="text-white"></iconify-icon><div class="text-xs text-gray-500 mt-2">brand</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:gallery-wide-linear" width="24" class="text-blue-400"></iconify-icon><div class="text-xs text-gray-500 mt-2">gallery</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:videocamera-record-linear" width="24" class="text-purple-400"></iconify-icon><div class="text-xs text-gray-500 mt-2">video</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:chart-square-linear" width="24" class="text-emerald-400"></iconify-icon><div class="text-xs text-gray-500 mt-2">chart</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:bolt-linear" width="24" class="text-orange-400"></iconify-icon><div class="text-xs text-gray-500 mt-2">bolt</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:star-bold" width="24" class="text-yellow-400"></iconify-icon><div class="text-xs text-gray-500 mt-2">star</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:chat-line-linear" width="24" class="text-gray-400"></iconify-icon><div class="text-xs text-gray-500 mt-2">chat</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:check-circle-bold" width="24" class="text-emerald-400"></iconify-icon><div class="text-xs text-gray-500 mt-2">check</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:rocket-linear" width="24" class="text-blue-300"></iconify-icon><div class="text-xs text-gray-500 mt-2">rocket</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:users-group-rounded-linear" width="24" class="text-emerald-400"></iconify-icon><div class="text-xs text-gray-500 mt-2">users</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:globus-linear" width="24" class="text-purple-400"></iconify-icon><div class="text-xs text-gray-500 mt-2">globus</div></div>
+    <div class="bg-[#262A34] rounded-2xl border border-white/5 p-5 text-center"><iconify-icon icon="solar:menu-dots-bold" width="24" class="text-gray-500"></iconify-icon><div class="text-xs text-gray-500 mt-2">menu dots</div></div>
+  </div>
+</section>
+
+<footer class="relative z-10 border-t border-white/5 bg-[#0B0F19] reveal-fade">
+  <div class="max-w-6xl mx-auto px-6 py-16 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="text-xs text-gray-500">Nexura Design System. Extracted from the root index.html.</div>
+    <div class="flex items-center gap-2 text-xs text-gray-500"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>All documented patterns exist in the reference page.</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){function init(){var els=document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-fade');var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){var d=e.target.getAttribute('data-delay')||0;setTimeout(function(){e.target.classList.add('in-view');},parseInt(d));io.unobserve(e.target);}});},{threshold:0.12});els.forEach(function(el){io.observe(el);});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}})();
+</script>
+</body>
+</html>
