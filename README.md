@@ -86,14 +86,17 @@ O sistema usa arquitetura multi-tenant **compartilhada**: mesmo banco e schema, 
 
 ```mermaid
 sequenceDiagram
-    Usuario->>+App: GET /attachments/1/download/
-    App->>+DB: SELECT * WHERE pk=1 AND brokerage=user.brokerage
+    participant Usuario
+    participant App
+    participant DB
+    Usuario->>App: GET /attachments/1/download/
+    App->>DB: SELECT * WHERE pk=1 AND brokerage=user.brokerage
     alt Encontrado
         DB-->>App: Attachment
-        App-->>-Usuario: FileResponse
+        App-->>Usuario: FileResponse
     else Nao encontrado
         DB-->>App: Vazio
-        App-->>-Usuario: 404 Not Found
+        App-->>Usuario: 404 Not Found
     end
 ```
 
